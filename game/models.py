@@ -3,12 +3,11 @@ from django.db import models
 
 class Player(models.Model):
     game = models.ManyToManyField('Game', through='PlayerGameInfo', related_name='player')
-    name = models.CharField(max_length=20)
-
+    role = models.CharField(max_length=5, choices=[('HO', 'host'), ('GU', 'guest')], default='HO')
 
 class Game(models.Model):
     players = models.ManyToManyField('Player', through='PlayerGameInfo', related_name='games')
-    number = models.SmallIntegerField
+    number = models.IntegerField(default=1)
 
 
 class PlayerGameInfo(models.Model):

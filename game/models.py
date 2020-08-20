@@ -8,6 +8,8 @@ class Player(models.Model):
 class Game(models.Model):
     players = models.ManyToManyField('Player', through='PlayerGameInfo', related_name='games')
     number = models.IntegerField(default=1)
+    solved = models.BooleanField(default=False)
+    try_count = models.PositiveSmallIntegerField(default=0)
 
 
 class PlayerGameInfo(models.Model):

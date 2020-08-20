@@ -7,7 +7,30 @@
     <div class="container">
         <div class="header">
             <h1>Игра "Угадай число"</h1>
-            {{ number }}
+            {% if role == 'GU' and game.solved == False %}
+                  <h2>Кто-то загадал число от 1 до 10. Попробуйте угадать</h2>
+                    <form action="/" method="POST">
+                        {% csrf_token %}
+                        <input type="text" id="guess" name="guess" value=""><br>
+                        <input type="submit" value="Отправить"/>
+                    </form>
+            {% elif role == 'HO' %}
+                <h2>Ваше число:  {{ game.number }}</h2>
+                <h3>Его пытались отгадать {{ game.try_count }} раз</h3>
+                {% if game.solved == True %}
+                    <h3>И отгадали!</h3>
+                {% else %}
+                    <h3>И пока не отгадали</h3>
+                {% endif %}
+            {% elif game.solved == True %}
+                <h3>Было загадано число:  {{ game.number }}</h3>
+                <h3>Его отгадали с попытки № {{ game.try_count }}</h3>
+            {% endif %}
+            {% if guess > game.number %}
+                <p>Попробуйте чуть меньше</p>
+            {% elif guess < game.number %}
+                <p>Попробуйте чуть больше</p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
